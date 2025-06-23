@@ -1,4 +1,76 @@
 import streamlit as st
+
+# Konfigurasi halaman HARUS paling atas
+st.set_page_config(page_title="LapStore Login", page_icon="💻", layout="centered")
+
+# Tambahan CSS agar tampilan berwarna
+st.markdown("""
+    <style>
+        /* Warna latar belakang utama */
+        .stApp {
+            background-color: #f1f3f6;
+            background-image: linear-gradient(135deg, #f1f3f6 0%, #e0e7ff 100%);
+        }
+
+        /* Judul utama */
+        .css-10trblm {
+            color: #2c3e50;
+        }
+
+        /* Sidebar */
+        .css-1d391kg {
+            background-color: #eef1f8;
+            border-right: 2px solid #ccc;
+        }
+
+        /* Widget box */
+        .stTextInput > div > div > input {
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            color: #333333;
+        }
+
+        .stButton>button {
+            background-color: #4a90e2;
+            color: white;
+            border: None;
+            border-radius: 5px;
+            padding: 8px 16px;
+        }
+
+        .stButton>button:hover {
+            background-color: #357ABD;
+        }
+
+        /* Success box */
+        .stAlert[data-testid="stAlert-success"] {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+
+        /* Error box */
+        .stAlert[data-testid="stAlert-error"] {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+
+        /* Warning box */
+        .stAlert[data-testid="stAlert-warning"] {
+            background-color: #fff3cd;
+            border-color: #ffeeba;
+            color: #856404;
+        }
+
+        /* Subheader warna */
+        h2 {
+            color: #1a237e;
+        }
+    </style>
+""", unsafe_allow_html=True)
+
+# Import modul lainnya
 from auth import login_user, register_user
 from database import create_user_table, create_tables, alter_table_add_kategori
 from dashboard import show_dashboard
@@ -12,11 +84,11 @@ create_user_table()
 create_tables()
 alter_table_add_kategori()
 
-st.set_page_config(page_title="LapStore Login", page_icon="💻", layout="centered")
-
+# Session user
 if "user" not in st.session_state:
     st.session_state["user"] = None
 
+# Halaman setelah login
 if st.session_state["user"]:
     st.sidebar.success(f"👤 {st.session_state['user']}")
     menu = st.sidebar.selectbox(
@@ -45,6 +117,7 @@ if st.session_state["user"]:
         st.session_state["user"] = None
         st.rerun()
 
+# Halaman login dan daftar
 else:
     st.title("💻 LapStore – Platform Produk Teknologi")
     menu = st.sidebar.selectbox("Menu", ["Login", "Daftar"])
