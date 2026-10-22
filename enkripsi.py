@@ -12,8 +12,13 @@ def pad(data):
 # Fungsi validasi kunci AES
 def get_aes_key_from_input(raw_key: str) -> bytes:
     key_bytes = raw_key.encode("utf-8")
+
     if len(key_bytes) != 32:
-        raise ValueError("Kunci harus 32 karakter (1 karakter = 1 byte untuk AES-256).")
+        raise ValueError(
+            f"Kunci tidak valid: panjang kunci saat ini "
+            f"{len(key_bytes)} byte, sedangkan AES-256 "
+            f"membutuhkan tepat 32 byte."
+        )
     return key_bytes
 
 # Enkripsi satu field dengan kunci
